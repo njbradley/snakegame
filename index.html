@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>sandbox</title>
+	<title>Snake Game</title>
 	
 	<style>
 		#screen {
@@ -18,11 +18,19 @@
 		}
 		#next {
 			position: absolute;
-			left: 430px;
+			right: 10px;
+			bottom: 10px;
 		}
 		#reset {
-			position: absolute:
+			position: absolute;
 			left: 10px;
+			bottom: 10px;
+		}
+		#screen_div {
+			position: absolute;
+		}
+		#sidebar {
+			margin-left: 510px;
 		}
 	</style>
 </head>
@@ -30,13 +38,44 @@
 <body>
 	<h1 id="title"></h1>
 	<p id="subtitle"></p>
-	<canvas id="screen" width="500" height="500"></canvas>
+	<div>
+		<div id="screen_div">
+			<svg id="reset" width="50" height="50">
+				<circle cx="50%" cy="50%" r="30%" stroke="black" stroke-width="20%" fill="white"/>
+				<rect width="50%" height="50%" fill="white"/>
+				<polygon points="25,0 25,20 10,10" fill="black"/>
+			</svg>
+			<svg id="next" width="50" height="50">
+				<polygon points="5,10 30,25 5,40" fill="black"/>
+				<polygon points="20,10 45,25 20,40" fill="black"/>
+			</svg>
+			<canvas id="screen" width="500" height="500">
+			</canvas>
+		</div>
+		<div id="sidebar">
+			<button onclick="game.editLevel();">Edit Level</button><br>
+			<button onclick="game.newLevel();">New Level</button><br>
+			<input id="levelinput"></textarea><br>
+			<button onclick="loadLevelTextbox();">Load</button>
+			<button onclick="saveLevelTextbox()">Save</button><br>
+			<input id="url_p"></input>
+			<button onclick="
+				let inp = document.getElementById('url_p');
+				inp.select();
+				inp.setSelectionRange(0, 99999);
+				document.execCommand('copy');
+			">Copy url</button><br>
+			<div id="editbar"></div>
+		</div>
+	</div>
 	<br>
-	<button id="reset">Reset Level</button>
-	<button id="next">Next Level</button>
 	
 </body>
 
+<script src="point.js"></script>
+<script src="snake.js"></script>
+<script src="level.js"></script>
+<script src="editor.js"></script>
 <script src="game.js"></script>
 <script src="main.js"></script>
 

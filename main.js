@@ -26,11 +26,29 @@ function makePoints(poses) {
 	return result;
 }
 
+function levelFuncFrom64(base64) {
+	return () => levelFromBase64(base64);
+}
+
+function loadLevelTextbox() {
+	game.from64(levelinput.value);
+}
+
+function saveLevelTextbox() {
+	let txt = levelToBase64(game.level);
+	levelinput.value = txt;
+	url_p.value = window.location.href + '?lvl=' + encodeURIComponent(txt);
+}
+
+
 var canvas = document.getElementById("screen");
 var title = document.getElementById("title");
 var subtitle = document.getElementById("subtitle");
 var nextbutton = document.getElementById("next");
 var resetbutton = document.getElementById("reset");
+var editbar = document.getElementById("editbar");
+var levelinput = document.getElementById("levelinput");
+var url_p = document.getElementById("url_p");
 
 
 
@@ -177,14 +195,22 @@ var nine = () => {
 	];
 }
 
-var levels = [
-	level1,
-	loopde,
-	loopde2,
-	tintersection,
-	loopy,
-	lottasnakes,
-	nine,
-];
 
-var game = new Game(canvas, title, subtitle, nextbutton, resetbutton, levels);
+console.log(window.location.search.length);
+
+if (window.location.search.length == 0) {
+	var levels = [
+		level1,
+		loopde,
+		loopde2,
+		tintersection,
+		loopy,
+		lottasnakes,
+		nine,
+	];
+} else {
+	const urlParams = new URLSearchParams(window.location.search);
+	var levels = [levelFuncFrom64(decodeURIComponent(urlParams.get("lvl")))];
+}
+
+var game = new Game(canvas, title, subtitle, nextbutton, resetbutton, editbar, levels);
